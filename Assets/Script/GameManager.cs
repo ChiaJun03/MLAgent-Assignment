@@ -44,7 +44,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        checkWinCondition();
         enemySpawner();
+    }
+
+    private void checkWinCondition()
+    {
+        if (waitingForWave && waveCounter == waveTotal)
+        {
+            Debug.Log("Ended");
+            // TODO: Add win scene
+        }
+
     }
 
     private void enemySpawner()
