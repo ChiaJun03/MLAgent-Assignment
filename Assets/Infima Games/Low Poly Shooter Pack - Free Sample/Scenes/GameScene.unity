@@ -3998,6 +3998,7 @@ MonoBehaviour:
   openArea: {fileID: 1941357328}
   enemyPrefab: {fileID: 7682366729036130348, guid: bbf2272a7a49d4a41872b56d72020da9,
     type: 3}
+  waveTotal: 1
 --- !u!1 &1721280172
 GameObject:
   m_ObjectHideFlags: 0
