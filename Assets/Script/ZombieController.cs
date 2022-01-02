@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace InfimaGames.LowPolyShooterPack
 {
     public class ZombieController : MonoBehaviour
     {
         public bool isHit = false;
-        //public GameObject player;
         private bool dying = false;
         private bool attacking = false;
         private bool isDead = false;
         private int health = 10;
         private Animator animator;
-        private Rigidbody rigidBody;
+        //private Rigidbody rigidBody;
+        private NavMeshAgent navAgent;
         private string curr_clip;
 
         [SerializeField]
@@ -33,8 +34,9 @@ namespace InfimaGames.LowPolyShooterPack
         {
             attackPoint = transform.Find("AttackPoint").gameObject;
             animator = GetComponent<Animator>();
-            rigidBody = GetComponent<Rigidbody>();
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+            //rigidBody = GetComponent<Rigidbody>();
+            //rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+            navAgent = GetComponent<NavMeshAgent>();
             animator.SetTrigger("setWalk");
 
             //Get Game Mode Service. Very useful to get Game Mode references.
@@ -44,39 +46,48 @@ namespace InfimaGames.LowPolyShooterPack
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        void Update()
         {
-            // Current clip name
-            curr_clip = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
             processHit(); //process zombie getting hit
-            
 
-            if (Vector3.Distance(transform.position, playerCharacter.transform.position) < 1.0f)
-            {
-                if (attacking == false)
+            if (!isDead){
+                // Current clip name
+                curr_clip = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+                
+                navAgent.SetDestination(playerCharacter.transform.position);
+
+                if (Vector3.Distance(transform.position, playerCharacter.transform.position) < 1.0f)
                 {
-                    // animator.SetTrigger("setAttack");
-                    attacking = true;
-                    // playerCharacter.TakeDamage(10);
-                    StartCoroutine(ZombieAttacking());
+                    if (attacking == false)
+                    {
+                        // animator.SetTrigger("setAttack");
+                        attacking = true;
+                        // playerCharacter.TakeDamage(10);
+                        StartCoroutine(ZombieAttacking());
+                    }
+
+                }
+                else
+                {
+                    attacking = false;
+                    animator.SetTrigger("setWalk");
                 }
 
-            }
-            else
-            {
-                attacking = false;
-                animator.SetTrigger("setWalk");
-            }
+                
 
+                if (dying == false && attacking == false && curr_clip != "Zombie Attack")
+                {
+                    //transform.Translate(0, 0, 0.005f);
+                    //Vector3 movement = new Vector3(0.0f, 0.0f, 0.5f);
+                    //rigidBody.MovePosition(transform.position + movement * Time.deltaTime * 1);
+                    navAgent.isStopped = false;
+                }
+                else
+                {
+                    navAgent.isStopped = true;
+                }
+            }
             
-
-            if (dying == false && attacking == false && curr_clip != "Zombie Attack")
-            {
-                //transform.Translate(0, 0, 0.005f);
-                Vector3 movement = new Vector3(0.0f, 0.0f, 0.5f);
-                rigidBody.MovePosition(transform.position + movement * Time.deltaTime * 1);
-            }
         }
 
         // Attack palyer if near to zombie
@@ -130,6 +141,7 @@ namespace InfimaGames.LowPolyShooterPack
         private IEnumerator ZombieAttacking()
         {
             animator.SetTrigger("setAttack");
+            navAgent.isStopped = true;
             yield return new WaitForSeconds(2.5f);
             if (Vector3.Distance(transform.position, playerCharacter.transform.position) < 2.0f)
             {
