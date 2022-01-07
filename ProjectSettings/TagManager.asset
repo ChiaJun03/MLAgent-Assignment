@@ -16,6 +16,12 @@ TagManager:
   - Wood (Static)
   - Dirt (Static)
   - Wood
+  - Door
+  - Lounge
+  - WaitingArea
+  - Zombie
+  - Cubicle
+  - Reception
   layers:
   - Default
   - TransparentFX
@@ -33,7 +39,7 @@ TagManager:
   - Post Processing Scope
   - Invisible Wall
   - Projectile
-  - 
+  - Zombie
   - 
   - 
   - 
