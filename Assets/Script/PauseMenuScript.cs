@@ -61,7 +61,7 @@ namespace InfimaGames.LowPolyShooterPack
 
         public void QuitGame()
         {
-            Debug.Log("Quitting Game...");
+            Debug.Log("QUIT");
             Application.Quit();
         }
     }

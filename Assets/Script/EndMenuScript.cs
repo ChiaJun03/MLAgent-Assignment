@@ -7,11 +7,13 @@ public class EndMenuScript : MonoBehaviour
 {
     public void PlayAgainButton()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("GameScene");
     }
 
     public void MainMenuButton()
-    {
-        //TODO: Add scene loading to main menu
+    {   
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("StartScene");
     }
 }

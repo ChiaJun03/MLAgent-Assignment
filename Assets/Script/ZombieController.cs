@@ -134,6 +134,7 @@ namespace InfimaGames.LowPolyShooterPack
         private IEnumerator Dying()
         {
             animator.SetTrigger("setDead");
+            GameManager.enemyKilled += 1;
             yield return new WaitForSeconds(5);
             isDead = true;
         }

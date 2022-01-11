@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private int waveTotal = 5; // total number of wave
-    private int waveCounter;
+    public static int waveCounter;
 
     private float newWaveTimer = 0;
     private bool waitingForWave = true;
@@ -26,7 +27,8 @@ public class GameManager : MonoBehaviour
     private int zombiePerWave = 5;
     private int spawnCount;
     private int maxEnemyCount;
-    private int currentEnemyCount;
+    public static int currentEnemyCount;
+    public static int enemyKilled = 0;
 
     private GameObject[] zombies;
 
@@ -53,7 +55,11 @@ public class GameManager : MonoBehaviour
         if (waitingForWave && waveCounter == waveTotal)
         {
             Debug.Log("Ended");
-            // TODO: Add win scene
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("EndScene");
+
         }
 
     }
@@ -75,6 +81,7 @@ public class GameManager : MonoBehaviour
                     maxEnemyCount = waveCounter * zombiePerWave;
                     currentEnemyCount = 0;
                     waitingForWave = false;
+                    enemyKilled = 0;
                 }
             }
         }
