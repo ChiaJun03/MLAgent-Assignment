@@ -1147,8 +1147,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517, y: 153.35999}
-  m_SizeDelta: {x: 356.3814, y: 76.4174}
+  m_AnchoredPosition: {x: 0.000030518, y: 157}
+  m_SizeDelta: {x: 553.7728, y: 76.4174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405050518
 MonoBehaviour:
@@ -1183,7 +1183,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game title
+  m_Text: ZOMBIE RUSH
 --- !u!222 &1405050519
 CanvasRenderer:
   m_ObjectHideFlags: 0

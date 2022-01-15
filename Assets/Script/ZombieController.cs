@@ -8,6 +8,8 @@ namespace InfimaGames.LowPolyShooterPack
     public class ZombieController : MonoBehaviour
     {
         public bool isHit = false;
+        public AudioSource zombieAudio;
+        public AudioClip zombieShout;
         private bool dying = false;
         private bool attacking = false;
         private bool isDead = false;
@@ -37,6 +39,7 @@ namespace InfimaGames.LowPolyShooterPack
             //rigidBody = GetComponent<Rigidbody>();
             //rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             navAgent = GetComponent<NavMeshAgent>();
+            zombieAudio = GetComponent<AudioSource>();
             animator.SetTrigger("setWalk");
 
             //Get Game Mode Service. Very useful to get Game Mode references.
@@ -122,6 +125,7 @@ namespace InfimaGames.LowPolyShooterPack
             else if(dying == false && health <= 0)
             {
                 //Start the dying coroutine
+                zombieAudio.PlayOneShot(zombieShout, 1.0f);
                 StartCoroutine(Dying());
                 dying = true;
             }
