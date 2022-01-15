@@ -229,6 +229,11 @@ namespace InfimaGames.LowPolyShooterPack
 
 			//Update Animator.
 			UpdateAnimator();
+
+			if (currentHealth <= 0)
+			{
+				GameManager.playerDead = true;
+			}
 		}
 
 		protected override void LateUpdate()

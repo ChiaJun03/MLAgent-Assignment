@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     [Header("Spawner")]
     [SerializeField]
     private GameObject enemyPrefab;
-
     [SerializeField]
     private int waveTotal = 5; // total number of wave
     public static int waveCounter;
@@ -29,9 +28,10 @@ public class GameManager : MonoBehaviour
     private int maxEnemyCount;
     public static int currentEnemyCount;
     public static int enemyKilled = 0;
+    public static bool playerDead = false;
+    public AudioSource bgmusic;
 
     private GameObject[] zombies;
-
 
 
     // Start is called before the first frame update
@@ -39,8 +39,10 @@ public class GameManager : MonoBehaviour
     {
         currentEnemyCount = 0;
         waveCounter = 0;
+        playerDead = false;
         maxEnemyCount = waveCounter * zombiePerWave;
         zombies =  new GameObject[waveTotal * zombiePerWave];
+        bgmusic.Play();
     }
 
     // Update is called once per frame
@@ -60,6 +62,14 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("EndScene");
 
+        }
+        if (playerDead)
+        {
+            Debug.Log("Ended");
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("EndScene");
         }
 
     }
