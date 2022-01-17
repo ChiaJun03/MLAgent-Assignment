@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,10 +16,9 @@ public class GameManager : MonoBehaviour
     [Header("Spawner")]
     [SerializeField]
     private GameObject enemyPrefab;
-
     [SerializeField]
     private int waveTotal = 5; // total number of wave
-    private int waveCounter;
+    public static int waveCounter;
 
     private float newWaveTimer = 0;
     private bool waitingForWave = true;
@@ -26,10 +26,12 @@ public class GameManager : MonoBehaviour
     private int zombiePerWave = 5;
     private int spawnCount;
     private int maxEnemyCount;
-    private int currentEnemyCount;
+    public static int currentEnemyCount;
+    public static int enemyKilled = 0;
+    public static bool playerDead = false;
+    public AudioSource bgmusic;
 
     private GameObject[] zombies;
-
 
 
     // Start is called before the first frame update
@@ -37,8 +39,10 @@ public class GameManager : MonoBehaviour
     {
         currentEnemyCount = 0;
         waveCounter = 0;
+        playerDead = false;
         maxEnemyCount = waveCounter * zombiePerWave;
         zombies =  new GameObject[waveTotal * zombiePerWave];
+        bgmusic.Play();
     }
 
     // Update is called once per frame
@@ -53,7 +57,19 @@ public class GameManager : MonoBehaviour
         if (waitingForWave && waveCounter == waveTotal)
         {
             Debug.Log("Ended");
-            // TODO: Add win scene
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("EndScene");
+
+        }
+        if (playerDead)
+        {
+            Debug.Log("Ended");
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("EndScene");
         }
 
     }
@@ -75,6 +91,7 @@ public class GameManager : MonoBehaviour
                     maxEnemyCount = waveCounter * zombiePerWave;
                     currentEnemyCount = 0;
                     waitingForWave = false;
+                    enemyKilled = 0;
                 }
             }
         }
